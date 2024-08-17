@@ -1,0 +1,41 @@
+syntax = "proto3";
+package internal;
+option go_package = "/packet";
+
+message Packet {
+  PacketType type = 1;
+
+  oneof payload {
+    Helo helo = 2;
+    InitiateSession initiateSession = 3;
+    AckSession ackSession = 4;
+    FragmentedData fragmentedData = 5;
+  }
+}
+
+enum PacketType {
+  HELO = 0; // HELO package is just a package to initiate the connection, does not contain any data
+  INITIATE_SESSION = 1; // the INITIATE_SESSION packet gets send by the initiator to start the session
+  ACK_SESSION = 2; // the ACK_SESSION packet gets send by the respondent to acknowledge the session
+  FRAGMENTED_DATA = 3; // FRAGMENTED_DATA is a data packet containing fragmented data
+}
+
+message Helo {
+
+}
+
+message InitiateSession {
+  uint32 mtu = 1;
+  uint32 network_mtu = 2;
+}
+
+message AckSession {
+  string id = 1;
+}
+
+message FragmentedData {
+  uint32 id = 1;
+  uint32 fragment = 2;
+  uint32 fragmentMax = 3;
+  bytes payload = 4;
+}

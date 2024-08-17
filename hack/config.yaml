@@ -1,0 +1,10 @@
+switches:
+  - name: switch0
+    mtu: 9000
+    network_mtu: 1400
+    listener:
+      hostname: "0.0.0.0"
+      port: 8037
+    ports:
+      - tapnic:
+          name: "trestle0"
